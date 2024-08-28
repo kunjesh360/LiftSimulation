@@ -193,7 +193,7 @@ body {
     .lift__door {
         width: 50%; 
         height: 100%; 
-   
+    }
     .lift-container {
         left: 4rem;
         right: 4rem;
@@ -248,4 +248,9 @@ body {
         flex-direction: column;
         gap: 10px;
     }
+
+  .input-btn-container{
+        margin-left: 20px;
+  }
+   
 }
