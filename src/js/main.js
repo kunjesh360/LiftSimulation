@@ -21,7 +21,7 @@ const liftDataStore = {
       const controlBtnWrapper = document.createElement("div");
       controlBtnWrapper.classList.add("control-btn-wrapper");
   
-      if (i < numberOfFloors) {
+      if (i < numberOfFloors || i===1) {
         const upButton = document.createElement("button");
         upButton.classList.add("control-button");
         upButton.textContent = "UP";
