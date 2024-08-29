@@ -146,6 +146,7 @@ const liftDataStore = {
         console.log("continue");        
         continue;
       }
+      lift.direction =direction;
       console.log("lift--id",lift);
       return lift;
     }
