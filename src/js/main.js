@@ -94,45 +94,56 @@ const liftDataStore = {
     simulationContainer.appendChild(liftContainer);
   }
   
-  function requestLift(floor, direction) {
-    
+ function requestLift(floor, direction) {
+     
+         console.log("come requset");
 
-    const availableLift = findNearestAvailableLift(floor);
-  
-    if (availableLift) {
-      if (availableLift.currentFloor !== floor) {
-        availableLift.targetFloor = floor;
-        availableLift.direction = direction;
-        availableLift.requestedFloors.add(floor);
-        moveLift(availableLift);
-      } else {
-        openLiftDoors(availableLift);
-      }
-    } else {
-      liftRequestQueue.push({ floor, direction });
-    }
+          const availableLift =  findNearestAvailableLift(floor);
+         console.log("finde lift ",availableLift);
+        
+          if (availableLift) {
+            if (availableLift.currentFloor !== floor) {
+              availableLift.targetFloor = floor;
+              availableLift.direction = direction;
+              availableLift.requestedFloors.add(floor);
+              moveLift(availableLift);
+            } else {
+              openLiftDoors(availableLift);
+            }
+          } else {
+            console.log("lift requserque");
+            
+            liftRequestQueue.push({ floor, direction });
+          }
   }
+
+
   
   function findNearestAvailableLift(floor) {
     let nearestLift = null;
     let shortestDistance = Infinity;
   
     for (const lift of lifts) {
-      if(lift.currentFloor !== floor)
-      {
-      if (!lift.moving) {
-        const distance = Math.abs(lift.currentFloor - floor);
-        if (distance < shortestDistance) {
-          shortestDistance = distance;
-          nearestLift = lift;
-        }
-      }
+      console.log("curent flore ",lift);
+      
+      if(lift.targetFloor !== floor)
+      {  console.log(" in ");
+      
+          if (!lift.moving) {
+            const distance = Math.abs(lift.currentFloor - floor);
+            if (distance < shortestDistance) {
+              shortestDistance = distance;
+              nearestLift = lift;
+              nearestLift.targetFloor=floor;
+              
+            }
+          }
     }else{
       console.log("lift--id",lift);
       return lift;
     }
     }
-  
+    console.log("lift--id2",nearestLift);
     return nearestLift;
   }
   
@@ -232,6 +243,9 @@ const liftDataStore = {
     }
   }
   
+
+
+
   simulateBtn.addEventListener("click", (event) => {
     event.preventDefault();
   
