@@ -96,9 +96,9 @@ const liftDataStore = {
   
  function requestLift(floor, direction) {
      
-         console.log("come requset");
+         console.log("come requset",floor,direction);
 
-          const availableLift =  findNearestAvailableLift(floor);
+          const availableLift =  findNearestAvailableLift(floor,direction);
          console.log("finde lift ",availableLift);
         
           if (availableLift) {
@@ -119,17 +119,18 @@ const liftDataStore = {
 
 
   
-  function findNearestAvailableLift(floor) {
+  function findNearestAvailableLift(floor,direction) {
     let nearestLift = null;
     let shortestDistance = Infinity;
   
     for (const lift of lifts) {
       console.log("curent flore ",lift);
-      
-      if(lift.targetFloor !== floor)
-      {  console.log(" in ");
-      
-          if (!lift.moving) {
+      console.log("diraction ---",!lift.direction === false ? lift.direction === direction:"f"  ," ===",lift.direction !== direction);
+      const ans= !lift.direction === false ? lift.direction === direction:"f"
+      if(lift.targetFloor !== floor  )
+      {  
+        console.log(" in ");
+           if (!lift.moving) {
             const distance = Math.abs(lift.currentFloor - floor);
             if (distance < shortestDistance) {
               shortestDistance = distance;
@@ -139,14 +140,21 @@ const liftDataStore = {
             }
           }
     }else{
+      if(!lift.direction === false && lift.direction !== direction)
+      {  console.log(lift.direction,"====" ,direction);
+      
+        console.log("continue");        
+        continue;
+      }
       console.log("lift--id",lift);
       return lift;
     }
     }
-    console.log("lift--id2",nearestLift);
     if (nearestLift !== null ) {
       nearestLift.targetFloor = floor;
-     } 
+      nearestLift.direction = direction;
+    } 
+    console.log("lift--id2",nearestLift);
     return nearestLift;
   }
   
@@ -156,17 +164,27 @@ const liftDataStore = {
   
     setTimeout(() => {
       lift.element.classList.remove("doors-open");
-  
+    console.log("door oprn");
+    
       setTimeout(() => {
         lift.doorsOperating = false;
+        
+        console.log(lift,"door oprn11111111111");
+        lift.direction=null;
+        console.log(lift,"door oprn111111111112");
+        
         lift.requestedFloors.delete(lift.currentFloor);
+        console.log(lift,"door oprn111111111113");
   
         if (lift.requestedFloors.size > 0) {
           lift.targetFloor = findNextTargetFloor(lift);
+      console.log("door oprn9999999999999");
+
           moveLift(lift);
         } else {
           lift.moving = false;
           lift.direction = null;
+
           processLiftQueue();
         }
       }, 5000);
