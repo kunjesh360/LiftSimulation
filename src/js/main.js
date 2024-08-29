@@ -144,7 +144,9 @@ const liftDataStore = {
     }
     }
     console.log("lift--id2",nearestLift);
-    nearestLift.targetFloor=floor;
+    if (nearestLift !== null ) {
+      nearestLift.targetFloor = floor;
+     } 
     return nearestLift;
   }
   
