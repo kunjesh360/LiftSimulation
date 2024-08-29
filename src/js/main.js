@@ -13,7 +13,7 @@ const liftDataStore = {
     simulationContainer.innerHTML = "";
     lifts = [];
     liftRequestQueue = [];
-  
+    simulationContainer.style.width=`${270+60*numberOfLifts+2*numberOfLifts}px`
     for (let i = numberOfFloors; i > 0; i--) {
       const floorDiv = document.createElement("div");
       floorDiv.classList.add("floor");
@@ -54,7 +54,7 @@ const liftDataStore = {
     const floorHeight = 100;
     const totalHeight = floorHeight * numberOfFloors;
     liftContainer.style.height = `${totalHeight}px`;
-  
+    liftContainer.style.width=`${60*numberOfLifts  +numberOfLifts*2}px`;
     for (let i = 1; i <= numberOfLifts; i++) {
       const liftDiv = document.createElement("div");
       liftDiv.classList.add("lift");
@@ -71,11 +71,13 @@ const liftDataStore = {
   
       const liftWidth = 50;
       const totalWidth = simulationContainer.clientWidth - 40;
-      const spacing = totalWidth / (numberOfLifts + 1)+10;
-  
+      console.log("kunjesh with-----",liftWidth*numberOfLifts);
+      const liftw=60*numberOfLifts ;
+      const spacing = totalWidth / (numberOfLifts + 1)+2;
+     
       liftDiv.style.left = `${spacing * i - liftWidth / 2}px`;
-  
-      liftContainer.appendChild(liftDiv);
+      liftContainer.appendChild(liftDiv);    
+      // liftContainer.style.width=`${liftw}px`;
   
       const liftStateObj = {
         id: `lift-${i}`,
@@ -93,6 +95,8 @@ const liftDataStore = {
   }
   
   function requestLift(floor, direction) {
+    
+
     const availableLift = findNearestAvailableLift(floor);
   
     if (availableLift) {
@@ -114,6 +118,8 @@ const liftDataStore = {
     let shortestDistance = Infinity;
   
     for (const lift of lifts) {
+      if(lift.currentFloor !== floor)
+      {
       if (!lift.moving) {
         const distance = Math.abs(lift.currentFloor - floor);
         if (distance < shortestDistance) {
@@ -121,6 +127,10 @@ const liftDataStore = {
           nearestLift = lift;
         }
       }
+    }else{
+      console.log("lift--id",lift);
+      return lift;
+    }
     }
   
     return nearestLift;
