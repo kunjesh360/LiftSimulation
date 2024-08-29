@@ -219,7 +219,8 @@ const liftDataStore = {
       currentFloor < targetFloor ? currentFloor + 1 : currentFloor - 1;
     const floorHeight = 100;
     const movement = (nextFloor - 1) * floorHeight;
-  
+    console.log("movie 00000000000000000000"+nextFloor,"--",movement);
+    
     lift.element.style.transform = `translateY(-${movement}px)`;
   
     setTimeout(() => {
@@ -277,7 +278,7 @@ const liftDataStore = {
     const lifts = document.getElementById("input-lifts-count");
   
     const numberOfFloors = parseInt(floors.value);
-    const numberOfLifts = parseInt(lifts.value) || 1;
+    const numberOfLifts = parseInt(lifts.value) ;
    
   if(!numberOfFloors || numberOfFloors<0)
   {
@@ -286,10 +287,11 @@ const liftDataStore = {
       
       return;
   }
-
-  if(numberOfLifts<0)
+  console.log("lift",numberOfLifts);
+  
+  if( !numberOfLifts && numberOfLifts !== 0 || numberOfLifts<0)
   {
-    alert("enter a vild lifts");
+    alert("enter a vild lifts if you not need any lift so enter 0");
     console.log("lifts");
     
     return;
