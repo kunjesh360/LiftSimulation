@@ -134,7 +134,7 @@ const liftDataStore = {
             if (distance < shortestDistance) {
               shortestDistance = distance;
               nearestLift = lift;
-              nearestLift.targetFloor=floor;
+
               
             }
           }
@@ -144,6 +144,7 @@ const liftDataStore = {
     }
     }
     console.log("lift--id2",nearestLift);
+    nearestLift.targetFloor=floor;
     return nearestLift;
   }
   
@@ -171,6 +172,8 @@ const liftDataStore = {
   }
   
   function moveLift(lift) {
+    console.log("moving lift ",lift,"----",lift.doorsOperating);
+    
     if (!lift.moving && !lift.doorsOperating) {
       lift.moving = true;
       moveToNextFloor(lift);
