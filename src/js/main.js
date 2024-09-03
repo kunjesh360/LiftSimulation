@@ -111,9 +111,16 @@ const liftDataStore = {
               openLiftDoors(availableLift);
             }
           } else {
-            console.log("lift requserque");
+            console.log("lift requserque----------");
+            const x=liftRequestQueue.find(f => f.floor === floor);
+            console.log("xx====",x);
             
-            liftRequestQueue.push({ floor, direction });
+            if( !x)
+              {
+                console.log("-1");
+                console.log(liftRequestQueue);
+                
+                liftRequestQueue.push({ floor, direction });}
           }
   }
 
@@ -188,8 +195,8 @@ const liftDataStore = {
 
           processLiftQueue();
         }
-      }, 5000);
-    }, 5000);
+      }, 2500);
+    }, 2500);
   }
   
   function moveLift(lift) {
