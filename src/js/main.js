@@ -169,10 +169,11 @@ const liftDataStore = {
   function openLiftDoors(lift) {
     lift.doorsOperating = true;
     lift.element.classList.add("doors-open");
+    console.log("door oprn------x", new Date());
   
     setTimeout(() => {
       lift.element.classList.remove("doors-open");
-    console.log("door oprn");
+    console.log("door oprn------", new Date());
     
       setTimeout(() => {
         lift.doorsOperating = false;
@@ -182,11 +183,11 @@ const liftDataStore = {
         console.log(lift,"door oprn111111111112");
         
         lift.requestedFloors.delete(lift.currentFloor);
-        console.log(lift,"door oprn111111111113");
+        console.log(lift,"door oprn111111111113",new Date());
   
         if (lift.requestedFloors.size > 0) {
           lift.targetFloor = findNextTargetFloor(lift);
-      console.log("door oprn9999999999999");
+      console.log("door oprn9999999999999",new Date());
 
           moveLift(lift);
         } else {
@@ -275,21 +276,32 @@ const liftDataStore = {
     }
   }
   
-
+function handlecontiner(){
+  simulationContainer.innerHTML = "";
+  
+}
 
 
   simulateBtn.addEventListener("click", (event) => {
     event.preventDefault();
-  
+
+
     const floors = document.getElementById("input-floors-count");
     const lifts = document.getElementById("input-lifts-count");
   
     const numberOfFloors = parseInt(floors.value);
     const numberOfLifts = parseInt(lifts.value) ;
-   
+    console.log(numberOfFloors);
+    
+   if(numberOfFloors === 0)
+   {
+    alert("Number of floors must be greater than 1, as lifts are used for buildings with more than one floor.");
+        return;
+        
+   }
   if(!numberOfFloors || numberOfFloors<0)
   {
-      alert("enter a vild floors");
+    alert("Please enter a valid number of floors. The number of floors must be greater than zero.");
       console.log("flore");
       
       return;
@@ -298,7 +310,8 @@ const liftDataStore = {
   
   if( !numberOfLifts && numberOfLifts !== 0 || numberOfLifts<0)
   {
-    alert("enter a vild lifts if you not need any lift so enter 0");
+    alert("Please enter a valid number of lifts. If no lifts are needed, enter 0.");
+
     console.log("lifts");
     
     return;

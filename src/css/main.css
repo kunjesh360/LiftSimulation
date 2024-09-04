@@ -171,6 +171,10 @@ body {
     transform-origin: right;
 }
 
+.lift__door-left, .lift__door-right {
+    transition: transform 2.6s ease; 
+}
+
 .lift.doors-open .lift__door-left {
     transform: translateX(-100%);
 }
