@@ -71,7 +71,7 @@ const liftDataStore = {
   
       const liftWidth = 50;
       const totalWidth = simulationContainer.clientWidth - 40;
-      console.log("kunjesh with-----",liftWidth*numberOfLifts);
+      // console.log("kunjesh with-----",liftWidth*numberOfLifts);
       const liftw=60*numberOfLifts ;
       const spacing = totalWidth / (numberOfLifts + 1)+2;
      
@@ -111,14 +111,14 @@ const liftDataStore = {
               openLiftDoors(availableLift);
             }
           } else {
-            console.log("lift requserque----------");
+            // console.log("lift requserque----------");
             const x=liftRequestQueue.find(f => f.floor === floor);
-            console.log("xx====",x);
+            // console.log("xx====",x);
             
             if( !x)
               {
-                console.log("-1");
-                console.log(liftRequestQueue);
+                // console.log("-1");
+                // console.log(liftRequestQueue);
                 
                 liftRequestQueue.push({ floor, direction });}
           }
@@ -131,12 +131,12 @@ const liftDataStore = {
     let shortestDistance = Infinity;
   
     for (const lift of lifts) {
-      console.log("curent flore ",lift);
-      console.log("diraction ---",!lift.direction === false ? lift.direction === direction:"f"  ," ===",lift.direction !== direction);
+      // console.log("curent flore ",lift);
+      // console.log("diraction ---",!lift.direction === false ? lift.direction === direction:"f"  ," ===",lift.direction !== direction);
       const ans= !lift.direction === false ? lift.direction === direction:"f"
       if(lift.targetFloor !== floor  )
       {  
-        console.log(" in ");
+        // console.log(" in ");
            if (!lift.moving) {
             const distance = Math.abs(lift.currentFloor - floor);
             if (distance < shortestDistance) {
@@ -148,13 +148,14 @@ const liftDataStore = {
           }
     }else{
       if(!lift.direction === false && lift.direction !== direction)
-      {  console.log(lift.direction,"====" ,direction);
+      {  
+        // console.log(lift.direction,"====" ,direction);
       
-        console.log("continue");        
+        // console.log("continue");        
         continue;
       }
       lift.direction =direction;
-      console.log("lift--id",lift);
+      // console.log("lift--id",lift);
       return lift;
     }
     }
@@ -162,7 +163,7 @@ const liftDataStore = {
       nearestLift.targetFloor = floor;
       nearestLift.direction = direction;
     } 
-    console.log("lift--id2",nearestLift);
+    // console.log("lift--id2",nearestLift);
     return nearestLift;
   }
   
@@ -201,7 +202,7 @@ const liftDataStore = {
   }
   
   function moveLift(lift) {
-    console.log("moving lift ",lift,"----",lift.doorsOperating);
+    // console.log("moving lift ",lift,"----",lift.doorsOperating);
     
     if (!lift.moving && !lift.doorsOperating) {
       lift.moving = true;
@@ -227,7 +228,7 @@ const liftDataStore = {
       currentFloor < targetFloor ? currentFloor + 1 : currentFloor - 1;
     const floorHeight = 100;
     const movement = (nextFloor - 1) * floorHeight;
-    console.log("movie 00000000000000000000"+nextFloor,"--",movement);
+    // console.log("movie 00000000000000000000"+nextFloor,"--",movement);
     
     lift.element.style.transform = `translateY(-${movement}px)`;
   
@@ -291,7 +292,7 @@ function handlecontiner(){
   
     const numberOfFloors = parseInt(floors.value);
     const numberOfLifts = parseInt(lifts.value) ;
-    console.log(numberOfFloors);
+    // console.log(numberOfFloors);
     
    if(numberOfFloors === 0)
    {
@@ -302,17 +303,17 @@ function handlecontiner(){
   if(!numberOfFloors || numberOfFloors<0)
   {
     alert("Please enter a valid number of floors. The number of floors must be greater than zero.");
-      console.log("flore");
+      // console.log("flore");
       
       return;
   }
-  console.log("lift",numberOfLifts);
+  // console.log("lift",numberOfLifts);
   
   if( !numberOfLifts && numberOfLifts !== 0 || numberOfLifts<0)
   {
     alert("Please enter a valid number of lifts. If no lifts are needed, enter 0.");
 
-    console.log("lifts");
+    // console.log("lifts");
     
     return;
   }
