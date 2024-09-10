@@ -136,7 +136,7 @@ function requestLift(floor, direction) {
       console.log("Doors are already operating. Ignoring request.");
       console.log("--",availableLift);
       
-      return; // Ignore the request if doors are already operating
+      // return; // Ignore the request if doors are already operating
     }
 
     if (availableLift.currentFloor !== floor) {
@@ -275,26 +275,22 @@ function requestLift(floor, direction) {
   
   if ( lift.doorsOperating) {
     console.log("Lift is moving or doors are already operating. Ignoring open request.");
-    return;
+    // return;
   }
 
-  // Start opening the doors
   lift.doorsOperating = true;
   lift.element.classList.add("doors-open");
   console.log("Doors opening", new Date());
 
-  // Wait for 2.5 seconds before closing the doors
   await delay(2500);
   lift.element.classList.remove("doors-open");
   console.log("Doors closing", new Date());
 
-  // Wait for another 2.5 seconds after the doors have been closed
-  await delay(2500);
+  // await delay(2500);
   lift.doorsOperating = false;
   lift.requestedFloors.delete(lift.currentFloor);
   console.log("Doors closed, processing further", new Date());
 
-  // Check if there are any requested floors left
   if (lift.requestedFloors.size > 0) {
     lift.targetFloor = findNextTargetFloor(lift);
     console.log("Next target floor found", lift.targetFloor);
