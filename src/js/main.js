@@ -286,7 +286,7 @@ function requestLift(floor, direction) {
   lift.element.classList.remove("doors-open");
   console.log("Doors closing", new Date());
 
-  // await delay(2500);
+  await delay(2500);
   lift.doorsOperating = false;
   lift.requestedFloors.delete(lift.currentFloor);
   console.log("Doors closed, processing further", new Date());
