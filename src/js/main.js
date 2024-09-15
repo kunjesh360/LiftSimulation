@@ -386,46 +386,99 @@ function handlecontiner(){
 }
 
 
+  // simulateBtn.addEventListener("click", (event) => {
+  //   event.preventDefault();
+
+
+  //   const floors = document.getElementById("input-floors-count");
+  //   const lifts = document.getElementById("input-lifts-count");
+  
+  //   const numberOfFloors = parseInt(floors.value);
+  //   const numberOfLifts = parseInt(lifts.value) ;
+  //   // console.log(numberOfFloors);
+    
+  //  if(numberOfFloors === 0)
+  //  {
+  //   alert("Number of floors must be greater than 1, as lifts are used for buildings with more than one floor.");
+  //       return;
+        
+  //  }
+  // if(!numberOfFloors || numberOfFloors<0)
+  // {
+  //   alert("Please enter a valid number of floors. The number of floors must be greater than zero.");
+  //     // console.log("flore");
+      
+  //     return;
+  // }
+  // // console.log("lift",numberOfLifts);
+  
+  // if( !numberOfLifts && numberOfLifts !== 0 || numberOfLifts<0)
+  // {
+  //   alert("Please enter a valid number of lifts. If no lifts are needed, enter 0.");
+
+  //   // console.log("lifts");
+    
+  //   return;
+  // }
+
+  //   liftDataStore.floors = numberOfFloors;
+  //   liftDataStore.lifts = numberOfLifts;
+  //  -
+    
+  
+  //   initializeSimulation(numberOfFloors, numberOfLifts);
+  // });
+  
+  const MAX_FLOORS = 2000;
+  const MAX_LIFTS = 5000;
   simulateBtn.addEventListener("click", (event) => {
     event.preventDefault();
 
+    const floors = document.getElementById("input-floors-count").value.trim();
+    const lifts = document.getElementById("input-lifts-count").value.trim();
+console.log("fl",floors);
 
-    const floors = document.getElementById("input-floors-count");
-    const lifts = document.getElementById("input-lifts-count");
-  
-    const numberOfFloors = parseInt(floors.value);
-    const numberOfLifts = parseInt(lifts.value) ;
-    // console.log(numberOfFloors);
-    
-   if(numberOfFloors === 0)
-   {
-    alert("Number of floors must be greater than 1, as lifts are used for buildings with more than one floor.");
-        return;
-        
-   }
-  if(!numberOfFloors || numberOfFloors<0)
-  {
-    alert("Please enter a valid number of floors. The number of floors must be greater than zero.");
-      // console.log("flore");
-      
-      return;
-  }
-  // console.log("lift",numberOfLifts);
-  
-  if( !numberOfLifts && numberOfLifts !== 0 || numberOfLifts<0)
-  {
-    alert("Please enter a valid number of lifts. If no lifts are needed, enter 0.");
+    const numberOfFloors = parseInt(floors);
+    const numberOfLifts = parseInt(lifts);
 
-    // console.log("lifts");
-    
-    return;
-  }
+   
+    if (!validateInputs(numberOfFloors, numberOfLifts)) {
+        return; 
+    }
 
+   
     liftDataStore.floors = numberOfFloors;
     liftDataStore.lifts = numberOfLifts;
-   -
-    
-  
+
     initializeSimulation(numberOfFloors, numberOfLifts);
-  });
-  
+});
+
+
+function validateInputs(floors, lifts) {
+  if (isNaN(floors) || floors <= 0) {
+      alert("Please enter a valid number of floors. The number of floors must be greater than zero.");
+      return false;
+  }
+
+  // if (floors === 0) {
+  //     alert("Number of floors must be greater than 1, as lifts are used for buildings with more than one floor.");
+  //     return false;
+  // }
+
+  if (floors > MAX_FLOORS) {
+      alert(`The number of floors cannot exceed ${MAX_FLOORS}.`);
+      return false;
+  }
+
+  if (isNaN(lifts) || lifts < 0) {
+      alert("Please enter a valid number of lifts. If no lifts are needed, enter 0.");
+      return false;
+  }
+
+  if (lifts > MAX_LIFTS) {
+      alert(`The number of lifts cannot exceed ${MAX_LIFTS}.`);
+      return false;
+  }
+
+  return true; 
+}
