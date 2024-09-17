@@ -465,20 +465,20 @@ function validateInputs(floors, lifts) {
   //     return false;
   // }
 
-  if (floors > MAX_FLOORS) {
-      alert(`The number of floors cannot exceed ${MAX_FLOORS}.`);
-      return false;
-  }
+  // if (floors > MAX_FLOORS) {
+  //     alert(`The number of floors cannot exceed ${MAX_FLOORS}.`);
+  //     return false;
+  // }
 
   if (isNaN(lifts) || lifts < 0) {
       alert("Please enter a valid number of lifts. If no lifts are needed, enter 0.");
       return false;
   }
 
-  if (lifts > MAX_LIFTS) {
-      alert(`The number of lifts cannot exceed ${MAX_LIFTS}.`);
-      return false;
-  }
+  // if (lifts > MAX_LIFTS) {
+  //     alert(`The number of lifts cannot exceed ${MAX_LIFTS}.`);
+  //     return false;
+  // }
 
   return true; 
 }
