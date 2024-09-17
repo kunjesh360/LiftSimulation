@@ -438,9 +438,8 @@ function handlecontiner(){
     const lifts = document.getElementById("input-lifts-count").value.trim();
 console.log("fl",floors);
 
-    const numberOfFloors = parseInt(floors);
-    const numberOfLifts = parseInt(lifts);
-
+   const numberOfFloors = Math.round(parseFloat(floors)); // Rounds the parsed value
+   const numberOfLifts = Math.round(parseFloat(lifts)); // Rounds the parsed value
    
     if (!validateInputs(numberOfFloors, numberOfLifts)) {
         return; 
