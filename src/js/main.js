@@ -41,7 +41,7 @@ const liftDataStore = {
   
       const floorNumber = document.createElement("div");
       floorNumber.classList.add("floor-number");
-      floorNumber.textContent = `Floor ${i}`;
+      floorNumber.textContent = `Floor ${i-1}`;
       floorDiv.appendChild(floorNumber);
   
       simulationContainer.appendChild(floorDiv);
