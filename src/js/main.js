@@ -132,7 +132,7 @@ function requestLift(floor, direction) {
 
   if (availableLift) {
     // Prevent multiple requests when the lift is at the same floor and doors are operating
-    if (availableLift.currentFloor === floor && availableLift.doorsOperating) {
+    if (availableLift.currentFloor === floor && availableLift.doorsOperating && availableLift.currentFloor === direction) {
       console.log("Doors are already operating. Ignoring request.");
       console.log("--",availableLift);
       
