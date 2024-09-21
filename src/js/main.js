@@ -94,35 +94,35 @@ const liftDataStore = {
     simulationContainer.appendChild(liftContainer);
   }
   
- function requestLift(floor, direction) {
+//  function requestLift(floor, direction) {
      
-         console.log("come requset",floor,direction);
+//          console.log("come requset",floor,direction);
 
-          const availableLift =  findNearestAvailableLift(floor,direction);
-         console.log("finde lift ",availableLift);
+//           const availableLift =  findNearestAvailableLift(floor,direction);
+//          console.log("finde lift ",availableLift);
         
-          if (availableLift) {
-            if (availableLift.currentFloor !== floor) {
-              availableLift.targetFloor = floor;
-              availableLift.direction = direction;
-              availableLift.requestedFloors.add(floor);
-              moveLift(availableLift);
-            } else {
-              openLiftDoors(availableLift);
-            }
-          } else {
-            // console.log("lift requserque----------");
-            const x=liftRequestQueue.find(f => f.floor === floor);
-            // console.log("xx====",x);
+//           if (availableLift) {
+//             if (availableLift.currentFloor !== floor) {
+//               availableLift.targetFloor = floor;
+//               availableLift.direction = direction;
+//               availableLift.requestedFloors.add(floor);
+//               moveLift(availableLift);
+//             } else {
+//               openLiftDoors(availableLift);
+//             }
+//           } else {
+//             // console.log("lift requserque----------");
+//             const x=liftRequestQueue.find(f => f.floor === floor);
+//             // console.log("xx====",x);
             
-            if( !x)
-              {
-                // console.log("-1");
-                // console.log(liftRequestQueue);
+//             if( !x)
+//               {
+//                 // console.log("-1");
+//                 // console.log(liftRequestQueue);
                 
-                liftRequestQueue.push({ floor, direction });}
-          }
-  }
+//                 liftRequestQueue.push({ floor, direction });}
+//           }
+//   }
 
 function requestLift(floor, direction) {
   console.log("Lift request for floor", floor, direction);
@@ -136,7 +136,7 @@ function requestLift(floor, direction) {
       console.log("Doors are already operating. Ignoring request.");
       console.log("--",availableLift);
       
-      // return; // Ignore the request if doors are already operating
+      return; // Ignore the request if doors are already operating
     }
 
     if (availableLift.currentFloor !== floor) {
@@ -149,11 +149,16 @@ function requestLift(floor, direction) {
     }
   } else {
     // Add to the queue if no lift is available
-    const existingRequest = liftRequestQueue.find(f => f.floor === floor);
+    const existingRequest = liftRequestQueue.find(f => f.floor === floor && f.direction === direction);
+    console.log("loo------",existingRequest);
+  
     if (!existingRequest) {
+      console.log("enter liftq");
+      
       liftRequestQueue.push({ floor, direction });
     }
   }
+  
 }
 
 
@@ -162,15 +167,22 @@ function requestLift(floor, direction) {
   function findNearestAvailableLift(floor,direction) {
     let nearestLift = null;
     let shortestDistance = Infinity;
+    let xlift=null;
   console.log("lift-----",floor);
   
     for (const lift of lifts) {
-      // console.log("curent flore ",lift);
+      console.log("curent flore ",lift);
       // console.log("diraction ---",!lift.direction === false ? lift.direction === direction:"f"  ," ===",lift.direction !== direction);
-      const ans= !lift.direction === false ? lift.direction === direction:"f"
-      if(lift.targetFloor !== floor || lift.targetFloor === 1 )
+     
+      if(lift.currentFloor === floor && lift.doorsOperating === false)
+      {
+        console.log("xlift");
+        
+          xlift=lift;
+      }
+      if(lift.targetFloor !== floor  )
       {  
-        // console.log(" in ");
+        console.log(" in ");
            if (!lift.moving) {
             const distance = Math.abs(lift.currentFloor - floor);
             if (distance < shortestDistance) {
@@ -190,15 +202,25 @@ function requestLift(floor, direction) {
       }
       lift.direction =direction;
       console.log("lift--id",lift);
+     xlift=lift;
       return lift;
     }
     }
+    if(xlift)
+     nearestLift = xlift;
     if (nearestLift !== null ) {
       nearestLift.targetFloor = floor;
+      console.log("d--",direction);
+      
       nearestLift.direction = direction;
+    
     } 
+
     console.log("lift--id2",nearestLift);
-    return nearestLift;
+    
+    
+     return nearestLift;
+    
   }
   
   // function openLiftDoors(lift) {
@@ -281,22 +303,28 @@ function requestLift(floor, direction) {
 
   lift.doorsOperating = true;
   lift.element.classList.add("doors-open");
-  console.log("Doors opening", new Date());
+  console.log("Doors opening", new Date(),lift);
 
   await delay(2500);
+  console.log("Doors closing====xxxx", new Date(),lift);
+  lift.doorsOperating = true;
+
   lift.element.classList.remove("doors-open");
-  console.log("Doors closing", new Date());
+  console.log("Doors closing====", new Date(),lift);
 
   await delay(2500);
+  lift.doorsOperating = true;
+lift.requestedFloors.delete(lift.currentFloor);
   lift.doorsOperating = false;
-  lift.requestedFloors.delete(lift.currentFloor);
-  console.log("Doors closed, processing further", new Date());
+  console.log("Doors closed, processing further", new Date(),lift);
 
   if (lift.requestedFloors.size > 0) {
     lift.targetFloor = findNextTargetFloor(lift);
     console.log("Next target floor found", lift.targetFloor);
     moveLift(lift);
   } else {
+    console.log("else");
+    
     lift.moving = false;
     lift.direction = null;
     processLiftQueue();
@@ -376,7 +404,10 @@ function requestLift(floor, direction) {
         availableLift.requestedFloors.add(nextRequest.floor);
         moveLift(availableLift);
       } else {
+        const existingRequest = liftRequestQueue.find(f => f.floor === floor);
+        if(!existingRequest){
         liftRequestQueue.unshift(nextRequest);
+        }
       }
     }
   }
